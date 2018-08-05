@@ -1,0 +1,86 @@
+# For more options and information see
+# http://rpf.io/configtxt
+# Some settings may impact device functionality. See link above for details
+
+#hdmi=0
+
+# uncomment if you get no picture on HDMI for a default "safe" mode
+#hdmi_safe=1
+
+# uncomment this if your display has a black border of unused pixels visible
+# and your display can output without overscan
+#disable_overscan=1
+
+# uncomment the following to adjust overscan. Use positive numbers if console
+# goes off screen, and negative if there is too much border
+#overscan_left=16
+#overscan_right=16
+#overscan_top=16
+#overscan_bottom=16
+
+# uncomment to force a console size. By default it will be display's size minus
+# overscan.
+#framebuffer_width=1280
+#framebuffer_height=720
+
+# uncomment if hdmi display is not detected and composite is being output
+#hdmi_force_hotplug=1
+
+# uncomment to force a specific HDMI mode (this will force VGA)
+#hdmi_group=1
+#hdmi_mode=1
+
+# uncomment to force a HDMI mode rather than DVI. This can make audio work in
+# DMT (computer monitor) modes
+#hdmi_drive=2
+
+# uncomment to increase signal to HDMI, if you have interference, blanking, or
+# no display
+#config_hdmi_boost=4
+
+# uncomment for composite PAL
+#sdtv_mode=2
+
+#uncomment to overclock the arm. 700 MHz is the default.
+#arm_freq=800
+
+# Uncomment some or all of these to enable the optional hardware interfaces
+dtparam=i2c_arm=on
+#dtparam=i2s=on
+dtparam=spi=on
+
+# Uncomment this to enable the lirc-rpi module
+#dtoverlay=lirc-rpi
+
+# Additional overlays and parameters are documented /boot/overlays/README
+
+# Enable audio (loads snd_bcm2835)
+#dtparam=audio=on
+dtoverlay=dwc2
+
+# Setup gpio-keys evdev driver using our custom overlay
+dtoverlay=waveshare
+
+# I spent some time trying to figure out how to do this in the device-tree overlay, but
+# wasn't having much success, so when I tried this and it worked, I decided it was
+# good enough.
+
+# Change the pull on (input) pins
+gpio=5,6,13,16,19,20,21,26=pu
+
+# Make pins inputs
+gpio=5,6,13,16,19,20,21,26=ip
+
+# here is another way to accomplish what the above 3 lines do, but without compiling our own device tree overlay...
+# the downside is that each gpio->evdev keyboard key has it's own /dev/input/eventN device, the above method creates
+# a single evdev from which all gpio pushes or falloi  
+
+#dtoverlay=gpio-key,gpio=21,active_low=1,gpio_pull=up,label=key1,keycode=2
+#dtoverlay=gpio-key,gpio=20,active_low=1,gpio_pull=up,label=key2,keycode=3
+#dtoverlay=gpio-key,gpio=16,active_low=1,gpio_pull=up,label=key3,keycode=4
+#dtoverlay=gpio-key,gpio=13,active_low=1,gpio_pull=up,label=joypush,keycode=28
+#dtoverlay=gpio-key,gpio=6,active_low=1,gpio_pull=up,label=joyup,keycode=103
+#dtoverlay=gpio-key,gpio=19,active_low=1,gpio_pull=up,label=joydown,keycode=108
+#dtoverlay=gpio-key,gpio=5,active_low=1,gpio_pull=up,label=joyleft,keycode=105
+#dtoverlay=gpio-key,gpio=26,active_low=1,gpio_pull=up,label=joyright,keycode=106
+
